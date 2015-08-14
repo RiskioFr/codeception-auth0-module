@@ -1,0 +1,19 @@
+{
+    "name": "riskio/codeception-auth0-module",
+    "description": "Codeception Auth0 module",
+    "require": {
+        "codeception/codeception": "^2.1",
+        "auth0/auth0-php": "^1.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nicolas Sitbon",
+            "email": "nicolas.sitbon@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "autoload": {
+        "classmap": ["Auth0.php"]
+    }
+}

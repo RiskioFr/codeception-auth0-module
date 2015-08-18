@@ -22,29 +22,29 @@ class Auth0 extends \Codeception\Module
                 $this->debug(sprintf('id: "%s" not removed: "%s"', $id, $e->__toString()));
             }
         }
-        
+
         $this->insertedIds = [];
         parent::_after($test);
     }
 
-    public function createUser($email, $password, $connection)
+    public function createAuth0User($email, $password, $connection)
     {
         try {
             $info = ApiUsers::create(
-                $this->config['domain'], 
-                $this->config['token'], 
+                $this->config['domain'],
+                $this->config['token'],
                 [
                     'email'      => $email,
                     'password'   => $password,
                     'connection' => $connection
                 ]
             );
-            
+
             $this->insertedIds[] = $info['user_id'];
             $this->debugSection('auth0: create user', $info);
             return $info;
         } catch (RequestException $e) {
-             $this->failBecauseOfHttpError();
+            $this->failBecauseOfHttpError();
         }
     }
 
@@ -62,6 +62,6 @@ EOL
                 $e->getRequest()->__toString(),
                 $e->hasResponse() ? $e->getResponse()->__toString() : 'null'
             )
-        );   
+        );
     }
 }

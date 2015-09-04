@@ -44,7 +44,7 @@ class Auth0 extends \Codeception\Module
             $this->debugSection('auth0: create user', $info);
             return $info;
         } catch (RequestException $e) {
-            $this->failBecauseOfHttpError();
+            $this->failBecauseOfHttpError($e);
         }
     }
 

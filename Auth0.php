@@ -1,6 +1,6 @@
 <?php namespace Codeception\Module;
 
-use Auth0\SDK\API\ApiUsers;
+use Auth0\SDK\Auth0Api;
 use Codeception\TestCase;
 use GuzzleHttp\Exception\RequestException;
 
@@ -13,11 +13,21 @@ class Auth0 extends \Codeception\Module
         'token',
     ];
 
+    /**
+     * @var Auth0Api
+     */
+    protected $auth0Api;
+
+    public function _initialize()
+    {
+        $this->auth0Api = new Auth0Api($this->config['token'], $this->config['domain']);
+    }
+
     public function _after(TestCase $test)
     {
         foreach ($this->insertedIds as $id) {
             try {
-                ApiUsers::delete($this->config['domain'], $this->config['token'], $id);
+                $this->auth0Api->users->delete($id);
             } catch (\Exception $e) {
                 $this->debug(sprintf('id: "%s" not removed: "%s"', $id, $e->__toString()));
             }
@@ -30,15 +40,11 @@ class Auth0 extends \Codeception\Module
     public function createAuth0User($email, $password, $connection)
     {
         try {
-            $info = ApiUsers::create(
-                $this->config['domain'],
-                $this->config['token'],
-                [
-                    'email'      => $email,
-                    'password'   => $password,
-                    'connection' => $connection
-                ]
-            );
+            $info = $this->auth0Api->users->create([
+                'email'      => $email,
+                'password'   => $password,
+                'connection' => $connection,
+            ]);
 
             $this->insertedIds[] = $info['user_id'];
             $this->debugSection('auth0: create user', $info);

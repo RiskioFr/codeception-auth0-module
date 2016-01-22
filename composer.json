@@ -3,7 +3,7 @@
     "description": "Codeception Auth0 module",
     "require": {
         "codeception/codeception": "^2.1",
-        "auth0/auth0-php": "^1.0"
+        "auth0/auth0-php": "~3.0"
     },
     "license": "MIT",
     "authors": [

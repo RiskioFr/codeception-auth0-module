@@ -59,14 +59,10 @@ class Auth0 extends \Codeception\Module
         $this->fail(
             sprintf(<<<'EOL'
 failed to create user: HTTP ERROR
-request:
-%s
-response:
 %s
 EOL
                 ,
-                $e->getRequest()->__toString(),
-                $e->hasResponse() ? $e->getResponse()->__toString() : 'null'
+                $e->getMessage()
             )
         );
     }
